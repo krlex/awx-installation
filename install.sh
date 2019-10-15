@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-TOOLS="awx/tools/"
-INSTALLER="awx/installer/"
+HOME="/home/$USER/"
+TOOLS="~/$HOME/awx/tools/"
+INSTALLER="~/$HOME/awx/installer/"
 
 echo "Upgrade and installation common"
-sudo yum -y install vim net-tools git yum-utils device-mapper-persistent-data
+sudo yum -y update
+sudo yum -y install vim net-tools git yum-utils device-mapper-persistent-data gcc
 
 echo "Set up stable repo for docker"
 sudo yum-config-manager \
@@ -13,7 +15,6 @@ sudo yum-config-manager \
 
 echo "Enable the nightly repo"
 sudo yum-config-manager --enable docker-ce-nightly
-yum -y --enablerepo=rhui-REGION-rhel-server-extras install container-selinux
 
 echo "Installation docker"
 sudo yum -y install docker-ce docker-ce-cli containerd.io
@@ -21,21 +22,18 @@ sudo yum -y install docker-ce docker-ce-cli containerd.io
 echo "Starting docker"
 sudo systemctl start docker
 
-echo "Set up python3-pip repo"
-sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-
 echo "Update and install Python3"
-sudo yum -y install python3-pip
+sudo yum -y install python3-pip.noarch python36 python36-devel python36-libs python36-tools
 
 echo "Install ansible"
-pip3 install ansible --user
+pip3 install --user ansible docker-compose
 
-echo "Set up docker-compse "
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+#echo "Set up docker-compse "
+#sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+#sudo chmod +x /usr/local/bin/docker-compose
 
 
-echo "Git cloning AWX in /root/ from krlex/awx github repo 7.0 version"
+echo "Git cloning AWX from krlex/awx github repo 7.0 version"
 git clone https://github.com/krlex/awx
 
 echo "Docker-compose starting ...."
