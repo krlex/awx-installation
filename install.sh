@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
-HOME="/home/$USER/"
-TOOLS="~/$HOME/awx/tools/"
-INSTALLER="~/$HOME/awx/installer/"
+
+export HOME="/home/vagrant/"
+
+TOOLS="$HOME/awx/tools/"
+INSTALLER="$HOME/awx/installer/"
 
 echo "Upgrade and installation common"
-sudo yum -y update
-sudo yum -y install vim net-tools git yum-utils device-mapper-persistent-data gcc
+sudo yum -y  update
+sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc
+
+echo "Git cloning AWX from krlex/awx github repo 7.0 version"
+sudo -u vagrant git clone https://github.com/krlex/awx
 
 echo "Set up stable repo for docker"
 sudo yum-config-manager \
@@ -23,24 +28,14 @@ echo "Starting docker"
 sudo systemctl start docker
 
 echo "Update and install Python3"
-sudo yum -y install python3-pip.noarch python36 python36-devel python36-libs python36-tools
+sudo yum -y -q install python3-pip.noarch python36 python36-devel python36-libs python36-tools
 
 echo "Install ansible"
-pip3 install --user ansible docker-compose
+pip3 install ansible docker-compose
 
-#echo "Set up docker-compse "
-#sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-#sudo chmod +x /usr/local/bin/docker-compose
-
-
-echo "Git cloning AWX from krlex/awx github repo 7.0 version"
-git clone https://github.com/krlex/awx
 
 echo "Docker-compose starting ...."
-cd $TOOLS
-docker-compose up
+/usr/local/bin/docker-compose up --project-directory $TOOLS
 
 echo "Ansible configuration and installation"
-cd $INSTALLER
-
-ansible-playbook -i inventory install.yml
+ansible-playbook -i awx/installer/inventory awx/installer/install.yml
