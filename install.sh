@@ -3,8 +3,8 @@
 
 export HOME="/home/vagrant/"
 
-TOOLS="$HOME/awx/tools/"
-INSTALLER="$HOME/awx/installer/"
+export TOOLS=~/awx/tools/
+export INSTALLER=~/awx/installer/
 
 echo "Upgrade and installation common"
 sudo yum -y  update
@@ -27,15 +27,21 @@ sudo yum -y install docker-ce docker-ce-cli containerd.io
 echo "Starting docker"
 sudo systemctl start docker
 
+echo "Setup python-pip"
+curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+
 echo "Update and install Python3"
 sudo yum -y -q install python3-pip.noarch python36 python36-devel python36-libs python36-tools
+sudo python get-pip.py
 
 echo "Install ansible"
-pip3 install ansible docker-compose
+sudo pip3 install ansible docker-compose
+sudo pip install docker
 
 
 echo "Docker-compose starting ...."
-/usr/local/bin/docker-compose up --project-directory $TOOLS
+cd $TOOLS
+/usr/local/bin/docker-compose up
 
 echo "Ansible configuration and installation"
-ansible-playbook -i awx/installer/inventory awx/installer/install.yml
+ansible-playbook -i ~/awx/installer/inventory ~/awx/installer/install.yml
