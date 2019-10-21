@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-export USER="vagrant"
-export HOME="/home/$USER"
+export HOME="/home/vagrant"
 
 export TOOLS=~/awx/tools/
 export INSTALLER=~/awx/installer/
