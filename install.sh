@@ -38,7 +38,6 @@ echo "Install ansible"
 sudo pip3 install ansible docker-compose
 sudo pip install docker
 
-
 echo "Docker-compose starting ...."
 cd $TOOLS
 /usr/local/bin/docker-compose up
