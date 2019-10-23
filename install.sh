@@ -46,3 +46,6 @@ cd $TOOLS
 
 echo "Ansible configuration and installation"
 ansible-playbook -i ~/awx/installer/inventory ~/awx/installer/install.yml
+
+echo "URL address"
+URL=$(sudo ip -4 addr show enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
