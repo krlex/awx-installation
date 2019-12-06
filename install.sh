@@ -9,8 +9,8 @@ echo "Upgrade and installation common"
 sudo yum -y  update
 sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc
 
-echo "Git cloning AWX from krlex/awx github repo 7.0 version"
-sudo git clone https://github.com/krlex/awx $HOME/awx
+echo "Git cloning AWX from krlex/awx github repo 9.0 version"
+sudo git clone https://github.com/ansible/awx $HOME/awx
 #chown -R vagrant vagrant $HOME/awx
 
 echo "Update and install Python3"
@@ -37,12 +37,13 @@ echo "Update and install Python"
 sudo python get-pip.py
 
 echo "Install ansible"
-sudo pip install docker-compose
+sudo pip3 install docker-compose
+ln /usr/local/bin/docker-compose /usr/bin/docker-compose
 sudo pip install docker ansible
 
 echo "Docker-compose starting ...."
 cd $TOOLS
-/usr/local/bin/docker-compose up
+/usr/local/bin/docker-compose up -d
 
 echo "Ansible configuration and installation"
 ansible-playbook -i ~/awx/installer/inventory ~/awx/installer/install.yml
