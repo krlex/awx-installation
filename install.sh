@@ -8,7 +8,7 @@ echo "Upgrade and installation common"
 sudo yum -y  update
 sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc libselinux-python3.x86_64
 
-echo "Git cloning AWX from krlex/awx github repo 9.0 version"
+echo "Git cloning AWX from krlex/awx github repo 14.1 version"
 sudo git clone https://github.com/ansible/awx $HOME/awx
 #chown -R vagrant vagrant $HOME/awx
 
