@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 export HOME="/root"
 
 export TOOLS=~/awx/tools/
@@ -7,7 +6,7 @@ export INSTALLER=~/awx/installer/
 
 echo "Upgrade and installation common"
 sudo yum -y  update
-sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc
+sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc libselinux-python3.x86_64
 
 echo "Git cloning AWX from krlex/awx github repo 9.0 version"
 sudo git clone https://github.com/ansible/awx $HOME/awx
