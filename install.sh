@@ -6,14 +6,14 @@ export INSTALLER=~/awx/installer/
 
 echo "Upgrade and installation common"
 sudo yum -y  update
-sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc libselinux-python3.x86_64
+sudo yum -y  install vim net-tools git yum-utils device-mapper-persistent-data gcc
 
 echo "Git cloning AWX from krlex/awx github repo 14.1 version"
 sudo git clone https://github.com/ansible/awx $HOME/awx
 #chown -R vagrant vagrant $HOME/awx
 
 echo "Update and install Python3"
-sudo yum -y install python3-pip.noarch python36 python36-devel python36-libs python36-tools
+sudo yum -y install python38-pip.noarch python38 python38-devel python38-libs 
 
 echo "Set up stable repo for docker"
 sudo yum-config-manager \
@@ -29,14 +29,8 @@ sudo yum -y install docker-ce docker-ce-cli containerd.io
 echo "Starting docker"
 sudo systemctl start docker
 
-echo "Setup python-pip"
-curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-
-echo "Update and install Python"
-sudo python get-pip.py
-
 echo "Install ansible"
-sudo pip3 install docker-compose
+sudo pip3 install --user docker-compose ansible
 ln /usr/local/bin/docker-compose /usr/bin/docker-compose
 sudo pip install docker ansible
 
